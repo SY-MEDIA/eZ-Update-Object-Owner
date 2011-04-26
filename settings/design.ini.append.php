@@ -3,7 +3,7 @@
 /*
 
 [ExtensionSettings]
-DesignExtensions[]=owner
+DesignExtensions[]=eZ-Update-Object-Owner
 
 */
 

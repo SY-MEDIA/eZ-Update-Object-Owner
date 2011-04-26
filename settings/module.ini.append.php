@@ -3,7 +3,7 @@
 /*
 
 [ModuleSettings]
-ExtensionRepositories[]=owner
+ExtensionRepositories[]=eZ-Update-Object-Owner
 ModuleList[]=owner
 
 */

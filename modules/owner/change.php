@@ -3,38 +3,36 @@
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 $http =& eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
-$moduleName =& $Params['ModuleName'];
-$functionName =& $Params['FunctionName'];
+// $moduleName =& $Params['ModuleName'];
+// $functionName =& $Params['FunctionName'];
 
-$objectID =& $Params['ObjectID'];
 
 // if browse was cancelled, redirect
-if ( $Module->isCurrentAction( 'Cancel' ) )
+if ( $Params['Module']->isCurrentAction( 'Cancel' ) )
 {
-    if ( $Module->hasActionParameter( 'CancelURI' ) )
+    if ( $Params['Module']->hasActionParameter( 'CancelURI' ) )
     {
-        return $Module->redirectTo( $Module->actionParameter( 'CancelURI' ) );
+        return $Params['Module']->redirectTo( $Params['Module']->actionParameter( 'CancelURI' ) );
     }
     else
     {
-        return $Module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
+        return $Params['Module']->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
     }
 }
 
-if ( $objectID )
+if ( $Params['ObjectID'] )
 {
-    $object =& eZContentObject::fetch( $objectID );
+    $object =& eZContentObject::fetch( $Params['ObjectID'] );
 }
 
-if ( !$objectID or !$object )
+if ( !$Params['ObjectID'] or !$object )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Params['Module']->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 
-if ( $Module->isCurrentAction( 'ChangeOwner' ) )
+if ( $Params['Module']->isCurrentAction( 'ChangeOwner' ) )
 {
     $selectedObjectIDArray = eZContentBrowse::result( 'ChangeOwner' );
 
@@ -48,15 +46,15 @@ if ( $Module->isCurrentAction( 'ChangeOwner' ) )
         eZContentCacheManager::clearContentCache( $object->attribute( 'id' ) );
     }
 
-    return $Module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
+    return $Params['Module']->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
 }
 else
 {
     $browseParams = array();
     $browseParams['action_name'] = 'ChangeOwner';
-    $browseParams['from_page'] = '/owner/change/' . $objectID;
+    $browseParams['from_page'] = '/owner/change/' . $Params['ObjectID'];
     $browseParams['description_template' ] = 'design:content/browse_owner.tpl';
-    $browseParams['content'] = array( 'object_id' => $objectID );
+    $browseParams['content'] = array( 'object_id' => $Params['ObjectID'] );
 
     $currentOwner =& $object->attribute( 'owner' );
 
@@ -79,7 +77,7 @@ else
         $browseParams['from_page'] .= '/group/' . $Params['StartNode'];
     }
     $browseParams['cancel_page'] = $http->sessionVariable( 'LastAccessesURI' );
-    return eZContentBrowse::browse( $browseParams, $Module );
+    return eZContentBrowse::browse( $browseParams, $Params['Module'] );
 }
 
 ?>
