@@ -1,0 +1,5 @@
+A refactored and enhanced version of the (C) 2006 SCK-CEN 'owner' extension created by
+Written by Kristof Coomans ( http://blog.kristofcoomans.be )
+
+This refactored version will also include more control over which objects a user can change owner for.
+e.g. Only if the object is owned by self.
