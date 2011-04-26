@@ -1,0 +1,10 @@
+<?php
+
+/*
+
+[ExtensionSettings]
+DesignExtensions[]=owner
+
+*/
+
+?>
